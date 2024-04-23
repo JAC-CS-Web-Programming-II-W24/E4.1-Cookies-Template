@@ -26,32 +26,29 @@ const serveStaticFile = async (url: string, res: ServerResponse) => {
 const handleRequest = async (req: IncomingMessage, res: ServerResponse) => {
     console.log(`${req.method} ${req.url}`);
 
-    // If the request URL matches a file extension, serve the file.
     if (req.url?.match(/.*\..*/)) {
         return await serveStaticFile(req.url, res);
     }
 
     let url;
 
-    // If the request URL matches a Pokemon ID, use the Pokemon ID route.
     if (req.url?.match(/\/pokemon\/\d+/)) {
         url = "/pokemon/:id";
     } else {
         url = req.url!;
     }
 
-    // If the request method and URL match a route, grab that handler.
     const handler = routes[req.method!][url];
 
     if (handler) {
         await handler(req, res);
     } else {
         res.statusCode = 404;
-        res.setHeader("Content-Type", "text/html");
+        // res.end(JSON.stringify({ message: "Route not found" }, null, 2));
         res.end(
             await renderTemplate("src/views/ErrorView.hbs", {
                 title: "Error",
-                message: `Route not found: ${req.url}`,
+                message: "Route not found",
             }),
         );
     }

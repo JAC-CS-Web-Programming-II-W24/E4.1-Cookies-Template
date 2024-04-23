@@ -11,14 +11,14 @@
 	<header>
 		<nav>
 			<ul>
-				<li><a href="{{ path '' }}">Home</a></li>
-				<li><a href="{{ path 'pokemon' }}">List Pokemon</a></li>
+				<li><a href="{{ path '' }}">{{ menu.home }}</a></li>
+				<li><a href="{{ path 'pokemon' }}">{{ menu.list }}</a></li>
 			</ul>
 			<form method="POST" action="/language">
 				<select name="language" onchange="this.form.submit()">
-					<option>󠁧󠁢󠁥Select Language</option>
-					<option value="en">󠁧󠁢󠁥English</option>
-					<option value="fr">󠁧󠁢󠁥French</option>
+					{{#each languages}}
+					<option value="{{ shortName }}" {{ isSelected }}>󠁧󠁢󠁥{{ longName }}</option>
+					{{/each}}
 				</select>
 			</form>
 		</nav>
